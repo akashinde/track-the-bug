@@ -1,0 +1,13 @@
+body, html {
+  margin: 0;
+  /* background-color: #1c1c7a; */
+  background-color: #e6e6e6;
+  /* font-family: 'Ubuntu'; */
+  font-family: 'Inconsolata', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Inconsolata', monospace;
+}
