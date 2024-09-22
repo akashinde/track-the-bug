@@ -1,9 +1,6 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const username = encodeURIComponent('akashinde');
-const password = encodeURIComponent('Stud@FraUas2022');
-
-const uri = `mongodb+srv://${username}:${password}@cluster0.4fpm820.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = process.env.MONGO_URI;
 
 let client = null;
 
