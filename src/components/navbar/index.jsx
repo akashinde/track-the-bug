@@ -35,11 +35,11 @@ const Navbar = () => {
           <li>Tickets</li>
         </Link>
         <Link
-          className={navState === "administration" ? navClass : "navbar-item"}
-          to="/administration"
-          onClick={() => setNavState("administration")}
+          className={navState === "some-random-page" ? navClass : "navbar-item"}
+          to="/some-random-page"
+          onClick={() => setNavState("some-random-page")}
         >
-          <li>Administration</li>
+          <li>Some random page</li>
         </Link>
       </ul>
       <div className="container center-container">

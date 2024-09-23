@@ -91,6 +91,7 @@ font-size: 0.8em;
 color: #696969;
 background-color: #f3f3f3;
 padding: 8px;
+text-align: start;
 }
 
 .table th p, table tr p {
@@ -151,7 +152,7 @@ cursor: pointer;
 }
 
 .navbar-title {
-height: 100px;
+/* height: 100px; */
 font-size: 2em;
 margin: 20px;
 font-family: 'Inconsolata';
@@ -274,4 +275,123 @@ justify-content: space-between;
 padding-left: 20px;
 font-weight: 600;
 color: #494949;
+}
+
+/* Common */
+
+.dialog-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dialog-box {
+  background-color: white;
+  padding: 20px;
+  padding-top: 0;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
+  z-index: 1001;
+}
+
+.dialog-body {
+  margin-bottom: 20px;
+  padding: 20px;
+  font-size: 1em;
+  background-color: #0000001e;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-form input,
+.create-form textarea,
+.create-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.create-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.create-form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px auto;
+}
+
+.create-form input:focus,
+.create-form textarea:focus,
+.create-form select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.create-form input:hover,
+.create-form textarea:hover,
+.create-form select:hover {
+  border-color: #999;
+}
+
+.create-form input::placeholder,
+.create-form textarea::placeholder {
+  color: #999;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-form input,
+.create-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.create-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.team-members-select {
+  height: auto;
+  min-height: 100px;
+}
+
+.team-members-select option {
+  padding: 5px;
+}
+
+.team-members-select option:checked {
+  background-color: #007bff linear-gradient(0deg, #007bff 0%, #007bff 100%);
+  color: white;
 }
