@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4 # Use v4 or later
         with:
-          node-version: '20' # Or your preferred Node.js version (e.g., '18')
+          node-version: '22'
 
       - name: Install Dependencies
         run: npm install # Use npm ci for clean installs in CI environments
@@ -27,9 +27,6 @@ jobs:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4 # Use v4 or later
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build # Or ./dist if using Vite or similar
-          # Optional: Specify a custom commit message for the gh-pages branch
-          # commit_message: 'Deploying with GitHub Actions'
+        run: npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
