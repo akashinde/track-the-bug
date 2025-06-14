@@ -22,13 +22,16 @@ jobs:
         run: npm ci # Use npm ci for clean installs in CI environments
 
       - name: Build React App
-        run: CI='' npm run build # Or yarn build
+        run: |
+          echo 'app-url ${{ secrets.REACT_APP_API_URL }}'
+          CI='' npm run build # Or yarn build
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
       # Step 5: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         run: |
+          echo 'deploy-token ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}'
           git config --global user.name $user_name
           git config --global user.email $user_email
           git remote set-url origin https://${github_token}@github.com/${repository}
