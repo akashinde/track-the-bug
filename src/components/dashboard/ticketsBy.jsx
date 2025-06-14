@@ -18,7 +18,7 @@ const TicketsBy = ({ name, chartLabels, chartData, colors }) => {
 
   return (
     <div className="tickets-card-container">
-      <p className="tickets-by-title">Tickets by {name}</p>
+      <p className="card-title">Tickets by {name}</p>
       <div>
         <Pie
           data={data}

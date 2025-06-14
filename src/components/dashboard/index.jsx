@@ -4,15 +4,30 @@ import Projects from "./projects";
 import TicketsBy from "./ticketsBy";
 import { fetchTicketsByType, fetchTicketsByPriority, fetchTicketsByStatus } from "../../service/tickets";
 
+const TYPE_COLORS = [
+  '#FF6B6B', // (A strong, somewhat urgent red)
+  '#6FCF97', // (A fresh, positive green)
+  '#56CCF2', // (A warm, neutral yellow/orange)
+]
+const PRIORITY_COLORS = [
+  '#EB5757',  // (Vivid red - immediate attention)
+  '#F2994A',  // (Orange - high importance, but not critical)
+  '#F2C94C',  // (Yellow/Amber - moderate importance)
+  '#6FCF97', // (Green - less urgent, can wait)
+  '#BDBDBD',  // (Neutral gray - very low or no urgency)
+]
+const STATUS_COLORS = [
+  '#2F80ED', // (Standard blue - indicates a new item, awaiting action)
+  '#F2C94C', // (Yellow/Amber - actively being worked on)
+  '#BB6BD9', // (Purple - distinct state, often a hand-off)
+  '#27AE60', // (Green - positive outcome, problem addressed)
+  '#4F4F4F', // (Dark gray - final state, no further action needed)
+]
+
 const Dashboard = () => {
   const [typeData, setTypeData] = useState({ labels: [], data: [] });
   const [priorityData, setPriorityData] = useState({ labels: [], data: [] });
   const [statusData, setStatusData] = useState({ labels: [], data: [] });
-
-  const color1 = "#003f5c";
-  const color2 = "#bc5090";
-  const color3 = "#ffa600";
-  const color4 = "#58508d";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,34 +55,34 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="main">
+    <>
       <div>
         <p className="navbar-title">Dashboard</p>
       </div>
-      <Projects />
       <div>
         <div className="tickets-container">
           <TicketsBy
             name={"Type"}
             chartLabels={typeData.labels}
             chartData={typeData.data}
-            colors={[color1, color3, color2]}
+            colors={TYPE_COLORS}
           />
           <TicketsBy
             name={"Priority"}
             chartLabels={priorityData.labels}
             chartData={priorityData.data}
-            colors={[color3, color1, color4, color2]}
+            colors={PRIORITY_COLORS}
           />
           <TicketsBy
             name={"Status"}
             chartLabels={statusData.labels}
             chartData={statusData.data}
-            colors={[color1, color4, color3]}
+            colors={STATUS_COLORS}
           />
         </div>
       </div>
-    </div>
+      <Projects />
+    </>
   );
 };
 

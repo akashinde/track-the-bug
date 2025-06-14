@@ -29,7 +29,7 @@ const Projects = () => {
     <div className="home-projects-container">
       <div className="project-header">
         <div className="project-header-title">
-          <p>Projects</p>
+          <h3>Projects</h3>
         </div>
         <div className="project-header-button">
           <Dialog
@@ -41,7 +41,7 @@ const Projects = () => {
           />
         </div>
       </div>
-      <div>
+      <div className="table-container">
         <table className="table">
           <thead>
             <tr>

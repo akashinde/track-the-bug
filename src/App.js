@@ -30,15 +30,17 @@ function App() {
       {
         user ? (<Navbar />) : ""
       }
-      <Routes>
-        <Route exact path='/' element={<Login />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/dashboard" element={<Dashboard />} />
-        <Route exact path="/tickets" element={<Tickets />} />
-        <Route exact path="/register" element={<Register />} />
-        
-        <Route path="*" element={<Page404 />} />
-      </Routes>
+      <div className="main-container">
+        <Routes>
+          <Route exact path='/' element={<Login />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/tickets" element={<Tickets />} />
+          <Route exact path="/register" element={<Register />} />
+          
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </div>
     </div>
   );
 }

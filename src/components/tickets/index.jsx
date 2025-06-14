@@ -27,7 +27,7 @@ const Tickets = () => {
   };
 
   return (
-    <div className="main">
+    <>
       <div>
         <p className="navbar-title">Tickets</p>
       </div>
@@ -79,7 +79,7 @@ const Tickets = () => {
           </table>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
