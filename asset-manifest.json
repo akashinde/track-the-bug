@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/track-the-bug/static/css/main.cdffbbb4.css",
+    "main.js": "/track-the-bug/static/js/main.feb6d963.js",
+    "static/media/bug-logo.png": "/track-the-bug/static/media/bug-logo.0d035ad05298991f4251.png",
+    "index.html": "/track-the-bug/index.html",
+    "main.cdffbbb4.css.map": "/track-the-bug/static/css/main.cdffbbb4.css.map",
+    "main.feb6d963.js.map": "/track-the-bug/static/js/main.feb6d963.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cdffbbb4.css",
+    "static/js/main.feb6d963.js"
+  ]
+}
