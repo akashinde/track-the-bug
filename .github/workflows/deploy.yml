@@ -16,10 +16,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4 # Use v4 or later
         with:
-          node-version: '22'
+          node-version: '18'
 
       - name: Install Dependencies
-        run: npm install # Use npm ci for clean installs in CI environments
+        run: npm ci # Use npm ci for clean installs in CI environments
 
       - name: Build React App
         run: npm run build # Or yarn build
