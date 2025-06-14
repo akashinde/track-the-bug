@@ -19,25 +19,22 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm ci # Use npm ci for clean installs in CI environments
+        run: npm ci
 
       - name: Build React App
-        run: |
-          echo 'app-url ${{ secrets.REACT_APP_API_URL }}'
-          CI='' npm run build # Or yarn build
+        run: CI='' REACT_APP_API_URL='https://track-the-bug-backend.onrender.com' npm run build
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
       # Step 5: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         run: |
-          echo 'deploy-token ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}'
           git config --global user.name $user_name
           git config --global user.email $user_email
-          git remote set-url origin https://${github_token}@github.com/${repository}
+        # git remote set-url origin https://${github_token}@github.com/${repository}
           CI='' npm run deploy
         env:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
+          # github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
