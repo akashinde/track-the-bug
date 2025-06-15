@@ -46,7 +46,7 @@ const Tickets = () => {
             />
           </div>
         </div>
-        <div>
+        <div className="table-container">
           <table className="table">
             <thead>
               <tr>

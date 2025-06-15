@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createUser } from "../../service/auth";
 
 const Register = () => {
   useEffect(() => {
@@ -26,9 +26,16 @@ const Register = () => {
   };
 
   const handleClick = () => {
-    alert("Account Created");
-    localStorage.setItem("user", form.username);
-    navigate("/dashboard");
+    console.log(form);
+    createUser(form).then((data) => {
+      if (data.message) {
+        alert(data.message);
+        localStorage.setItem("user", form.username);
+        navigate("/dashboard");
+      } else {
+        alert(data.error);
+      }
+    }).catch((error) => alert(error));
   };
 
   return (
@@ -36,7 +43,7 @@ const Register = () => {
       <div className="login-title">
         <p>Register</p>
       </div>
-      <form className="form-container">
+      <div className="form-container">
         <div className="input-container">
           <input
             name="firstName"
@@ -75,14 +82,14 @@ const Register = () => {
           />
         </div>
         <div className="center-container flex-vertical">
-          <button type="submit" className="button" onClick={handleClick}>
-            Sign in
+          <button className="button" onClick={handleClick}>
+            Register
           </button>
         </div>
-      </form>
+      </div>
 
       <div className="register-container">
-        Already a user? <a href="/login">Login</a>
+        Already a user? <Link to="/login">Login</Link>
       </div>
     </div>
   );
