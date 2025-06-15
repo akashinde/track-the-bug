@@ -5,7 +5,7 @@ const uri = process.env.MONGO_URI;
 let client = null;
 
 async function getClient() {
-  if (client && client.topology.isConnected()) {
+  if (client && client.topology && client.topology.isConnected()) {
     return client;
   }
 
