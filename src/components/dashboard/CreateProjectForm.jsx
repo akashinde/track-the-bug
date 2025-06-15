@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../service/users";
-
-// Mock formData for testing
-const mockFormData = {
-    name: 'Test Project',
-    description: 'This is a test project description',
-    teamIds: []
-};
+import Select from 'react-select';
 
 export default function CreateProjectForm({ onSubmit, onClose }) {
+
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -20,7 +15,7 @@ export default function CreateProjectForm({ onSubmit, onClose }) {
         const fetchDropdownData = async () => {
             try {
                 const fetchedUsers = await fetchUsers();
-                setUsers(fetchedUsers);
+                setUsers(fetchedUsers.map(user => ({ value: user._id, label: user.name })));
             } catch (error) {
                 console.error("Error fetching users:", error);
             }
@@ -43,29 +38,21 @@ export default function CreateProjectForm({ onSubmit, onClose }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="create-form">
+        <div className="create-form">
             <input type="text" name="name" placeholder="Project name" value={formData.name} onChange={handleChange} required />
             <textarea name="description" placeholder="Project description" value={formData.description} onChange={handleChange} required />
-            <select
-                multiple
-                name="teamIds"
-                value={formData.teamIds}
-                onChange={(e) => {
-                    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-                    setFormData(prevData => ({ ...prevData, teamIds: selectedOptions }));
+            <Select
+                options={users}
+                isMulti
+                closeMenuOnSelect={false}
+                onChange={(selectedOptions) => {
+                    setFormData(prevData => ({ ...prevData, teamIds: selectedOptions.map(option => option.label) }));
                 }}
-                className="team-members-select"
-            >
-                {users.map(user => (
-                    <option key={user.id} value={user.id}>
-                        {user.name}
-                    </option>
-                ))}
-            </select>
+            />
             <div style={{ display: 'flex', justifyContent: 'end', gap: 10 }}>
                 <button className="button font-medium" onClick={onClose}>Cancel</button>
-                <button className="button font-medium" type="submit">Submit</button>
+                <button className="button font-medium" onClick={handleSubmit}>Submit</button>
             </div>
-        </form>
+        </div>
     );
 };
