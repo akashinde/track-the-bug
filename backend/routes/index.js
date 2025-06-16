@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const packageJson = require('../package.json');
+
 /**
  * @swagger
  * /:
@@ -11,7 +13,7 @@ var router = express.Router();
  *         description: Default root route
  */
 router.get('/', function(req, res, next) {
-  res.send({ title: 'Express' });
+  res.send({ version: packageJson.version });
 });
 
 module.exports = router;

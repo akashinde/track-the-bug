@@ -47,7 +47,9 @@ const Projects = () => {
             <tr>
               <th>Name</th>
               <th>Description</th>
-              <th>Team Members</th>
+              <th>Status</th>
+              <th>Created By</th>
+              <th>Assigned To</th>
             </tr>
           </thead>
           <tbody>
@@ -57,7 +59,9 @@ const Projects = () => {
                   <tr key={el.name}>
                     <td>{el.name}</td>
                     <td>{el.description}</td>
-                    <td>{el.teamIds && el.teamIds.map((id) => <p key={id}>{id}</p>)}</td>
+                    <td>{el.status}</td>
+                    <td>{el.createdBy}</td>
+                    <td>{el.assignedTo.join(', ')}</td>
                   </tr>
                 )
               })

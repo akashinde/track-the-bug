@@ -1,4 +1,5 @@
 import API from './api.js'
+import { STATUS_OPTIONS, PRIORITY_OPTIONS, TYPE_OPTIONS } from '../constants';
 
 export async function fetchTickets() {
     const res = await API.get('/bugs');
@@ -10,19 +11,25 @@ export async function createTicket(ticketData) {
     return res.data;
 }
 
-// New functions
+export async function updateTicket(ticketId, ticketData) {
+    const res = await API.put(`/bugs/${ticketId}`, ticketData);
+    return res.data;
+}
+
+export async function deleteTicket(ticketId) {
+    const res = await API.delete(`/bugs/${ticketId}`);
+    return res.data;
+}
+
 export async function fetchTicketsByType() {
     const tickets = await fetchTickets();
-    const typeCounts = {
-        Issues: 0,
-        Bugs: 0,
-        Features: 0
-    };
+    const typeCounts = TYPE_OPTIONS.reduce((acc, type) => {
+        acc[type] = 0;
+        return acc;
+    }, {});
     
     tickets.forEach(ticket => {
-        if (ticket.type === 'Issue') typeCounts.Issues++;
-        else if (ticket.type === 'Bug') typeCounts.Bugs++;
-        else if (ticket.type === 'Feature') typeCounts.Features++;
+        typeCounts[ticket.type]++;
     });
     
     return typeCounts;
@@ -30,12 +37,10 @@ export async function fetchTicketsByType() {
 
 export async function fetchTicketsByPriority() {
     const tickets = await fetchTickets();
-    const priorityCounts = {
-        Immediate: 0,
-        High: 0,
-        Medium: 0,
-        Low: 0
-    };
+    const priorityCounts = PRIORITY_OPTIONS.reduce((acc, priority) => {
+        acc[priority] = 0;
+        return acc;
+    }, {});
     
     tickets.forEach(ticket => {
         priorityCounts[ticket.priority]++;
@@ -46,17 +51,29 @@ export async function fetchTicketsByPriority() {
 
 export async function fetchTicketsByStatus() {
     const tickets = await fetchTickets();
-    const statusCounts = {
-        Resolved: 0,
-        New: 0,
-        'In-Progress': 0
-    };
+    const statusCounts = STATUS_OPTIONS.reduce((acc, status) => {
+        acc[status] = 0;
+        return acc;
+    }, {});
     
     tickets.forEach(ticket => {
-        if (ticket.status === 'Resolved') statusCounts.Resolved++;
-        else if (ticket.status === 'Open') statusCounts.New++;
-        else if (ticket.status === 'In Progress') statusCounts['In-Progress']++;
+        statusCounts[ticket.status]++;
     });
     
     return statusCounts;
+}
+
+export async function fetchTicketsByProject(projectId) {
+    const tickets = await fetchTickets();
+    return tickets.filter(ticket => ticket.projectId === projectId);
+}
+
+export async function fetchTicketsByAssignee(userId) {
+    const tickets = await fetchTickets();
+    return tickets.filter(ticket => ticket.assignedTo === userId);
+}
+
+export async function fetchTicketsByReporter(userId) {
+    const tickets = await fetchTickets();
+    return tickets.filter(ticket => ticket.reportedBy === userId);
 }

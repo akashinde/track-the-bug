@@ -52,9 +52,9 @@ const Tickets = () => {
               <tr>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Type</th>
                 <th>Status</th>
                 <th>Priority</th>
-                <th>Severity</th>
                 <th>Assignees</th>
                 <th>Project</th>
               </tr>
@@ -66,9 +66,9 @@ const Tickets = () => {
                     <tr key={el.title}>
                       <td>{el.title}</td>
                       <td>{el.description}</td>
+                      <td>{el.type}</td>
                       <td>{el.status}</td>
                       <td>{el.priority}</td>
-                      <td>{el.severity}</td>
                       <td>{el.assignedTo}</td>
                       <td>{el.projectId}</td>
                     </tr>

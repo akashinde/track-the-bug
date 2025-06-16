@@ -1,43 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { getClient } = require('../dbconnect.js');
-const { v4: uuidv4 } = require('uuid');
-
-// Function to generate random bug reports
-function generateRandomBugs(count) {
-  const statuses = ['Open', 'In Progress', 'Resolved', 'Closed'];
-  const priorities = ['Low', 'Medium', 'High', 'Critical'];
-  const severities = ['Minor', 'Major', 'Critical'];
-  const users = ['user123', 'user456', 'user789', 'user101'];
-  const projects = ['project1', 'project2', 'project3'];
-
-  return Array.from({ length: count }, () => ({
-    title: `Bug ${uuidv4().slice(0, 8)}`,
-    description: `This is a randomly generated bug description for ${uuidv4().slice(0, 8)}`,
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-    priority: priorities[Math.floor(Math.random() * priorities.length)],
-    severity: severities[Math.floor(Math.random() * severities.length)],
-    reportedBy: users[Math.floor(Math.random() * users.length)],
-    assignedTo: users[Math.floor(Math.random() * users.length)],
-    projectId: projects[Math.floor(Math.random() * projects.length)],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    comments: [
-      {
-        userId: users[Math.floor(Math.random() * users.length)],
-        comment: "This is a random comment.",
-        createdAt: new Date().toISOString()
-      }
-    ],
-    history: [
-      {
-        status: 'Open',
-        changedBy: users[Math.floor(Math.random() * users.length)],
-        changedAt: new Date().toISOString()
-      }
-    ]
-  }));
-}
+const { ObjectId } = require('mongodb');
 
 /**
  * @swagger
@@ -53,6 +17,13 @@ router.get('/', async function(req, res, next) {
     const client = await getClient();
     const bugs = client.db('track-the-bug').collection('bugs')
     const result = await bugs.find().toArray();
+    for (const bug of result) {
+      const users = await client.db('track-the-bug').collection('users').find({ _id: { $in: bug.assignedTo.concat(bug.reportedBy) } }).toArray();
+      bug.assignedTo = users.map((user) => user.name)
+      bug.reportedBy = users.find((user) => user._id.toString() === bug.reportedBy.toString()).name
+      const project = await client.db('track-the-bug').collection('projects').findOne({ _id: bug.projectId });
+      bug.projectId = project ? project.name : null
+    }
     res.json(result);
   } catch (error) {
     console.error('Error fetching bugs:', error);
@@ -165,6 +136,9 @@ router.get('/', async function(req, res, next) {
 router.post('/add', async function (req, res, next) {
   const data = req.body;  
   data.creadtedAt = new Date().toISOString();
+  data.projectId = new ObjectId(data.projectId);
+  data.reportedBy = new ObjectId(data.reportedBy);
+  data.assignedTo = data.assignedTo.map(id => new ObjectId(id));
   try {
     const client = await getClient();
     const bugs = client.db('track-the-bug').collection('bugs')
@@ -173,31 +147,6 @@ router.post('/add', async function (req, res, next) {
   } catch (error) {
     console.error('Error creating bug:', error);
     res.status(500).json({ error: 'An error occurred while creating the bug' });
-  }
-});
-
-/**
- * @swagger
- * /bugs/batch-add:
- *   post:
- *     summary: Add a batch of random bug reports
- *     description: Generates and adds 30 random bug reports to the database.
- *     responses:
- *       200:
- *         description: Batch of bug reports created successfully
- *       500:
- *         description: Server error
- */
-router.post('/batch-add', async function (req, res, next) {
-  try {
-    const client = await getClient();
-    const bugs = client.db('track-the-bug').collection('bugs');
-    const randomBugs = generateRandomBugs(30);
-    const result = await bugs.insertMany(randomBugs);
-    res.json({ message: `${result.insertedCount} bug reports created successfully`, ids: result.insertedIds });
-  } catch (error) {
-    console.error('Error creating batch of bugs:', error);
-    res.status(500).json({ error: 'An error occurred while creating the batch of bugs' });
   }
 });
 
